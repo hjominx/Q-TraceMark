@@ -1,0 +1,649 @@
+{
+  "project": "Q-TraceMark",
+  "report_type": "report_grade_validation",
+  "evidence_schema_version": "0.2",
+  "issued_at_utc": "2026-06-06T14:23:19.663710+00:00",
+  "work_id": "ART-2026-QRNG-001",
+  "copy_id": "COPY-PLATFORM-A-USER-8832",
+  "thresholds": [
+    0.95,
+    0.99,
+    0.999
+  ],
+  "primary_threshold": 0.95,
+  "confidence_model": "one-sided z-test with Bonferroni correction over period^2 phase trials",
+  "qrng_source": "deterministic demo fallback; replace with EVK QRNG file for lab runs",
+  "entropy_report": {
+    "byte_count": 1048576,
+    "sha256": "baa5b50cf3c66d2a5173af904bd63d8febba98ef8ca305b59efe8a81e9995231",
+    "bit_one_ratio": 0.4997270107269287,
+    "byte_entropy_bits_per_byte": 7.999822907086646,
+    "longest_run_bits": 23
+  },
+  "master_seed_hash": "224bdc4506757b4817cb4332a5bc243c3db28d76e7862c30a8c947d2ee1769cf",
+  "layers": [
+    {
+      "layer_type": "work",
+      "layer_id": "ART-2026-QRNG-001",
+      "seed_hash": "3c0be73d31892e330d666a70217864b5e6c2240d944344a3de3e942764936c94",
+      "alpha": 10.0,
+      "density": 0.55,
+      "period": 17
+    },
+    {
+      "layer_type": "copy",
+      "layer_id": "COPY-PLATFORM-A-USER-8832",
+      "seed_hash": "3948964edee012804704d9d65535e56d2b7d05b382c7959acf3ea84add1fa94a",
+      "alpha": 7.0,
+      "density": 0.55,
+      "period": 17
+    }
+  ],
+  "attack_detections": {
+    "source": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 0.0,
+        "z_score": 0.5578739144800525,
+        "mean_correlation": 0.22356581056146455,
+        "samples": 3371,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 0.28846524263691375,
+        "p_value_corrected": 1.0,
+        "detected": false
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 0.0,
+        "z_score": 0.7175885700741084,
+        "mean_correlation": 0.2981927253870355,
+        "samples": 3046,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 0.23650550362939474,
+        "p_value_corrected": 1.0,
+        "detected": false
+      }
+    ],
+    "watermarked": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 24.627314644480748,
+        "mean_correlation": 9.905822794036224,
+        "samples": 3371,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 3.2208728689134207e-134,
+        "p_value_corrected": 9.308322591159787e-132,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 17.362353217237995,
+        "mean_correlation": 7.259195758573953,
+        "samples": 3046,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 7.95339357272726e-68,
+        "p_value_corrected": 2.298530742518178e-65,
+        "detected": true
+      }
+    ],
+    "jpeg_q70": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 24.13174443079081,
+        "mean_correlation": 9.811803511090243,
+        "samples": 3371,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 5.805209825269805e-129,
+        "p_value_corrected": 1.6777056395029737e-126,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 19.350497855420095,
+        "mean_correlation": 8.168747831487071,
+        "samples": 3046,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 1.009413398868295e-83,
+        "p_value_corrected": 2.917204722729372e-81,
+        "detected": true
+      }
+    ],
+    "crop_50pct": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 18.468737431047423,
+        "mean_correlation": 10.003755698847376,
+        "samples": 1464,
+        "best_phase": 207,
+        "phase_trials": 289,
+        "p_value_uncorrected": 1.8430234348913503e-76,
+        "p_value_corrected": 5.326337726836003e-74,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 12.10796678701729,
+        "mean_correlation": 7.154232678893626,
+        "samples": 1305,
+        "best_phase": 207,
+        "phase_trials": 289,
+        "p_value_uncorrected": 4.792022514490295e-34,
+        "p_value_corrected": 1.3848945066876952e-31,
+        "detected": true
+      }
+    ],
+    "brightness": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 10.375136808752481,
+        "mean_correlation": 3.7472027653636952,
+        "samples": 3371,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 1.6087559623427158e-25,
+        "p_value_corrected": 4.649304731170449e-23,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 0.9999999999887408,
+        "z_score": 7.4737877360171465,
+        "mean_correlation": 2.7832216716025853,
+        "samples": 3046,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 3.895939621728423e-14,
+        "p_value_corrected": 1.1259265506795143e-11,
+        "detected": true
+      }
+    ],
+    "pasted_fragment": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 10.213691865511308,
+        "mean_correlation": 9.340583011648643,
+        "samples": 861,
+        "best_phase": 216,
+        "phase_trials": 289,
+        "p_value_uncorrected": 8.609295413084045e-25,
+        "p_value_corrected": 2.488086374381289e-22,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 8.999301319454561,
+        "mean_correlation": 7.7496387405511085,
+        "samples": 774,
+        "best_phase": 216,
+        "phase_trials": 289,
+        "p_value_uncorrected": 1.1357933121090924e-19,
+        "p_value_corrected": 3.2824426719952773e-17,
+        "detected": true
+      }
+    ]
+  },
+  "attack_regions": {
+    "pasted_fragment": [
+      224,
+      112,
+      576,
+      400
+    ]
+  },
+  "false_positive_analysis": {
+    "control_source": "synthetic",
+    "samples": 12,
+    "synthetic_image_size": [
+      320,
+      224
+    ],
+    "threshold_sweep": [
+      {
+        "threshold": 0.95,
+        "family_wise_alpha": 0.05,
+        "false_positive_images": 0,
+        "false_positive_rate": 0.0
+      },
+      {
+        "threshold": 0.99,
+        "family_wise_alpha": 0.01,
+        "false_positive_images": 0,
+        "false_positive_rate": 0.0
+      },
+      {
+        "threshold": 0.999,
+        "family_wise_alpha": 0.001,
+        "false_positive_images": 0,
+        "false_positive_rate": 0.0
+      }
+    ],
+    "max_null_confidence": 0.8255903562222311,
+    "min_null_corrected_p_value": 0.17440964377776894,
+    "max_null_z_score": 3.237223797852899,
+    "controls": [
+      {
+        "label": "synthetic-0",
+        "image_sha256": "191f59d3fd359e7b90c450ef57c69ac98b724141d026ed7b5300dfb81650e6ef",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.0,
+            "z_score": -0.32468358317852714,
+            "mean_correlation": -0.25167742652305664,
+            "samples": 626,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.6272897195979912,
+            "p_value_corrected": 1.0,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.0,
+            "z_score": 0.08396764598825723,
+            "mean_correlation": 0.08517498790976002,
+            "samples": 554,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.46654107782859877,
+            "p_value_corrected": 1.0,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-1",
+        "image_sha256": "0c5dbcedd48648b099a36f1667afeaaf0ec1e22d30a6c90eae126acd869d348c",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.3453334361321274,
+            "z_score": 2.8386441923422527,
+            "mean_correlation": 1.9456409888474588,
+            "samples": 622,
+            "best_phase": 222,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.002265282227916514,
+            "p_value_corrected": 0.6546665638678726,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.6982071634651372,
+            "z_score": 3.0773453569780584,
+            "mean_correlation": 2.476941326086405,
+            "samples": 559,
+            "best_phase": 37,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0010442658703628468,
+            "p_value_corrected": 0.3017928365348627,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-2",
+        "image_sha256": "0f2701f2bc10d2c4134d2a7b78733bda30af9fb07c4d3ae9cc95c7fdd23ca15d",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.0,
+            "z_score": -0.5976076662571196,
+            "mean_correlation": -0.2184720070828897,
+            "samples": 626,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.7249491261364708,
+            "p_value_corrected": 1.0,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.6592643809733174,
+            "z_score": 3.040988040756127,
+            "mean_correlation": 1.2813783496304425,
+            "samples": 545,
+            "best_phase": 195,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0011790159827912892,
+            "p_value_corrected": 0.3407356190266826,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-3",
+        "image_sha256": "4724d12991032969712e32e77a9ce86b3cde0db3498b54a3c7a5741be9b23de7",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.5912619125635552,
+            "z_score": 2.9857717046840704,
+            "mean_correlation": 2.053681248323978,
+            "samples": 605,
+            "best_phase": 188,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.001414318641648598,
+            "p_value_corrected": 0.40873808743644485,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.8255903562222311,
+            "z_score": 3.237223797852899,
+            "mean_correlation": 2.1355610923349566,
+            "samples": 553,
+            "best_phase": 98,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0006034935770857057,
+            "p_value_corrected": 0.17440964377776894,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-4",
+        "image_sha256": "6bcb8bc109d7c7ca1ee0c2fba2f82fc92a6bfd97d624d3b9142343b3dd4da03c",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.3132941545710559,
+            "z_score": 2.823361890812012,
+            "mean_correlation": 1.9040605767194354,
+            "samples": 614,
+            "best_phase": 167,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.002376144793871779,
+            "p_value_corrected": 0.6867058454289441,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.5639176101034056,
+            "z_score": 2.9659117007280975,
+            "mean_correlation": 2.2546348243221144,
+            "samples": 558,
+            "best_phase": 83,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0015089356051785274,
+            "p_value_corrected": 0.4360823898965944,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-5",
+        "image_sha256": "ef0d0b72b5bc45fcd5e14e200d1ba909f727af990826a6281f9c1addcfc32a62",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.0,
+            "z_score": 0.7300154646054205,
+            "mean_correlation": 0.3229296496582188,
+            "samples": 626,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.23269036592027434,
+            "p_value_corrected": 1.0,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.18825315688566058,
+            "z_score": 2.7693036547212544,
+            "mean_correlation": 1.6750359840427052,
+            "samples": 567,
+            "best_phase": 263,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0028088126059319703,
+            "p_value_corrected": 0.8117468431143394,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-6",
+        "image_sha256": "b0287e59f89f90154bf02c8ae9180ad3a127bfbd8d3d60b80a73c94ab9124837",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.6229738167100377,
+            "z_score": 3.0103837864809058,
+            "mean_correlation": 0.9814111910754352,
+            "samples": 609,
+            "best_phase": 59,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0013045888695154405,
+            "p_value_corrected": 0.3770261832899623,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.0,
+            "z_score": 1.1520936140737155,
+            "mean_correlation": 0.46701981676635956,
+            "samples": 554,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.12464130349654422,
+            "p_value_corrected": 1.0,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-7",
+        "image_sha256": "e72ed38a539f5483318f4465c9f812740b3712e7c7e7f15aeed72e9103838f4d",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.09603039205956498,
+            "z_score": 2.734061017401798,
+            "mean_correlation": 2.17174858445472,
+            "samples": 593,
+            "best_phase": 74,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0031279225188250346,
+            "p_value_corrected": 0.903969607940435,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.0,
+            "z_score": 1.1862652390504473,
+            "mean_correlation": 0.7830717577048394,
+            "samples": 554,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.11775878480179759,
+            "p_value_corrected": 1.0,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-8",
+        "image_sha256": "33c0190e7e04d78968992e1c2501332cf0638593a2004579863892769baa2163",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.2783111346525522,
+            "z_score": 2.807395597812209,
+            "mean_correlation": 1.9038009232673223,
+            "samples": 613,
+            "best_phase": 170,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0024971933057005113,
+            "p_value_corrected": 0.7216888653474478,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.0,
+            "z_score": -0.8062068264348732,
+            "mean_correlation": -0.6563953947179402,
+            "samples": 554,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.7899381983704454,
+            "p_value_corrected": 1.0,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-9",
+        "image_sha256": "e69c2a7447dbd18cc301bd2ad47ec7b10709f77b4bf73a1e25a887c1bf9815a7",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.3415609009560501,
+            "z_score": 2.8368099974672694,
+            "mean_correlation": 1.551961478730783,
+            "samples": 611,
+            "best_phase": 165,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.002278335982851038,
+            "p_value_corrected": 0.6584390990439499,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.0,
+            "z_score": -1.2522432372291357,
+            "mean_correlation": -0.767110311035461,
+            "samples": 554,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.8947593773106916,
+            "p_value_corrected": 1.0,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-10",
+        "image_sha256": "6187cfc6b40185bd7c8e5c31f00a445e57f2a35fbe8c36ee6c4995d87f2d203b",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.0,
+            "z_score": -0.22011948222006117,
+            "mean_correlation": -0.055662701220899495,
+            "samples": 626,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.5871109488622108,
+            "p_value_corrected": 1.0,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.0,
+            "z_score": -0.2835827139302751,
+            "mean_correlation": -0.08609749255416947,
+            "samples": 554,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.6116349071077344,
+            "p_value_corrected": 1.0,
+            "detected": false
+          }
+        ]
+      },
+      {
+        "label": "synthetic-11",
+        "image_sha256": "dfca0df7720d092ffd0c10fad563115f0aed7e768ed85352cd3929e3a6e0f23b",
+        "false_positive": false,
+        "detections": [
+          {
+            "layer_type": "work",
+            "layer_id": "ART-2026-QRNG-001",
+            "confidence": 0.7057352310725331,
+            "z_score": 3.084866644246615,
+            "mean_correlation": 1.6121062258162604,
+            "samples": 611,
+            "best_phase": 42,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.0010182171935206464,
+            "p_value_corrected": 0.29426476892746684,
+            "detected": false
+          },
+          {
+            "layer_type": "copy",
+            "layer_id": "COPY-PLATFORM-A-USER-8832",
+            "confidence": 0.0,
+            "z_score": 0.2908587050100574,
+            "mean_correlation": 0.1435367364186289,
+            "samples": 554,
+            "best_phase": 0,
+            "phase_trials": 289,
+            "p_value_uncorrected": 0.38557969255801916,
+            "p_value_corrected": 1.0,
+            "detected": false
+          }
+        ]
+      }
+    ]
+  }
+}

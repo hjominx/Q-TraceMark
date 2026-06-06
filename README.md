@@ -79,11 +79,45 @@ python3 scripts/measure_fpr.py --samples 12
 
 예시 결과는 [`docs/assets/fpr_report.json`](docs/assets/fpr_report.json)에 포함되어 있습니다.
 
+기본적으로 `--thresholds 0.95,0.99,0.999`에 대해 threshold별 false positive count와 FPR을
+함께 출력합니다.
+
 보고서용으로는 실제 EVK QRNG 파일과 더 많은 대조군을 사용하세요.
 
 ```bash
 python3 scripts/measure_fpr.py --qrng-file /path/to/evk_C_1MB.bin --samples 100
 ```
+
+## Report-grade validation
+
+합성 이미지가 아니라 **실제 사진/텍스처 대조군**에서 검출률과 오탐률을 한 번에 검증하고
+단일 리포트로 남기려면 검증 스위트를 실행합니다.
+
+```bash
+python3 scripts/run_validation_suite.py
+```
+
+워터마크가 들어가지 않은 실제 사진 폴더를 대조군으로 쓰려면 `--controls-dir`을 지정합니다
+(폴더에 이미지가 없으면 자동으로 합성 대조군으로 폴백합니다).
+
+```bash
+python3 scripts/run_validation_suite.py --controls-dir data/controls --samples 100
+```
+
+`measure_fpr.py`도 동일하게 실제 사진 폴더를 받을 수 있습니다.
+
+```bash
+python3 scripts/measure_fpr.py --controls-dir data/controls --samples 100
+```
+
+검증 스위트는 다음을 한 리포트에 담습니다.
+
+- 워터마크 삽입본 + 공격본(JPEG, 크롭, 밝기, 부분 합성) 검출 결과
+- 무워터마크 대조군 기반 경험적 FPR
+- threshold 0.95 / 0.99 / 0.999 sweep
+
+결과는 `results/validation/validation_report.json`에 저장되고, 예시 결과는
+[`docs/assets/validation_report.json`](docs/assets/validation_report.json)에 포함되어 있습니다.
 
 ## 프로젝트 구조
 
@@ -101,6 +135,7 @@ Q-TraceMark/
     qtracemark.py
     run_demo.py
     measure_fpr.py
+    run_validation_suite.py
   tests/
     test_qtracemark.py
 ```
@@ -115,6 +150,7 @@ Q-TraceMark/
 - 후보 seed registry 기반 검출
 - Bonferroni 보정 confidence score와 evidence hash 출력
 - 무워터마크 대조군 기반 경험적 FPR 측정 스크립트
+- 실제 사진 대조군 + threshold sweep을 포함한 report-grade 검증 스위트
 
 실서비스 수준으로 가려면 SIFT/ORB 정렬, 오류정정코드, 대규모 seed index,
 충돌/오탐 분석, 법적 timestamping, 개인정보 보호 설계가 추가되어야 합니다.

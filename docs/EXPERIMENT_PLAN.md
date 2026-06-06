@@ -104,6 +104,46 @@ python3 scripts/measure_fpr.py --samples 100
 - null 분포의 최소 보정 p-value
 - threshold 선택 근거
 
+### 6.1 실제 사진 대조군 (report-grade)
+
+합성 그래디언트 대조군은 중주파 에너지가 거의 없어 host 간섭의 쉬운 케이스만 본다.
+리포트용으로는 워터마크가 들어가지 않은 **실제 사진/텍스처 이미지**를 대조군으로 써야
+null 분포의 꼬리를 보수적으로 측정할 수 있다.
+
+1. 워터마크를 삽입한 적 없는 실제 사진을 한 폴더에 모은다. 권장 경로:
+
+   ```text
+   data/controls/
+   ```
+
+   - 작품과 무관한 사진, 다양한 텍스처(인물, 풍경, 패턴)를 섞는다.
+   - 최소 50장, 가능하면 100장 이상.
+   - 검출 대상 작품 자체는 절대 포함하지 않는다 (true negative 대조군이어야 함).
+
+2. 실제 사진 폴더로 FPR을 측정한다.
+
+   ```bash
+   python3 scripts/measure_fpr.py --controls-dir data/controls --samples 100
+   ```
+
+   폴더에 이미지가 있으면 그 이미지들이 대조군으로 사용되고, 없으면 자동으로 합성
+   대조군으로 폴백한다.
+
+3. threshold별(0.95 / 0.99 / 0.999) false positive count와 FPR을 함께 기록한다.
+   `--thresholds 0.95,0.99,0.999`가 기본값이며 필요시 조정한다.
+
+### 6.2 통합 검증 스위프
+
+검출률(공격 이미지)과 오탐률(대조군)을 한 번에 측정하고 단일 리포트로 남기려면
+report-grade 검증 스위트를 사용한다.
+
+```bash
+python3 scripts/run_validation_suite.py --controls-dir data/controls --samples 100
+```
+
+결과는 `results/validation/validation_report.json`과 `docs/assets/validation_report.json`에
+저장되며, 공격별 검출 결과와 threshold sweep FPR이 한 파일에 들어간다.
+
 ## 7. 기록할 결과
 
 - 공격 조건
