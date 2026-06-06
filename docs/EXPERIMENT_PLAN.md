@@ -67,26 +67,56 @@ copy_seed   = SHA256(master_seed || "copy" || copy_id)
 ## 5. 검출
 
 각 공격 이미지에 대해 registry에 저장된 후보 seed와 correlation score를 계산한다.
+검출기는 crop offset을 모르는 상황을 가정해 여러 phase 후보를 탐색하므로,
+최종 판정에는 다중비교 보정이 필요하다.
+
+현재 PoC는 다음 값을 기록한다.
+
+- 최고 z-score
+- 단일검정 p-value
+- Bonferroni 보정 p-value
+- `phase_trials = period^2`
+- `confidence = 1 - corrected_p_value`
 
 판정 기준 예시:
 
 | confidence | 판정 |
 |---:|---|
-| 0.60 이상 | PASS |
-| 0.45 이상 | WARNING |
-| 0.45 미만 | FAIL |
+| 0.95 이상 | PASS |
+| 0.90 이상 | WARNING |
+| 0.90 미만 | FAIL |
 
-## 6. 기록할 결과
+## 6. 오탐률 측정
+
+검출률만 측정하면 증거 시스템으로 부족하다. 워터마크가 없는 이미지에서 얼마나 자주
+false positive가 발생하는지도 측정해야 한다.
+
+```bash
+python3 scripts/measure_fpr.py --samples 100
+```
+
+권장 기록:
+
+- 대조군 이미지 수
+- false positive image count
+- empirical FPR
+- null 분포의 최대 confidence
+- null 분포의 최소 보정 p-value
+- threshold 선택 근거
+
+## 7. 기록할 결과
 
 - 공격 조건
 - work layer confidence
 - copy layer confidence
 - z-score
+- 보정 전/후 p-value
 - 사용된 QRNG hash
 - seed hash
+- 발급 timestamp
 - 검출 성공/실패
 
-## 7. 주의사항
+## 8. 주의사항
 
 본 실험은 "복제 방지"가 아니라 "사후 추적" 실험이다. 강한 AI 재생성,
 매우 작은 crop, 카메라 재촬영에서는 검출률이 낮아질 수 있다.

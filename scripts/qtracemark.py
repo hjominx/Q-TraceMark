@@ -69,6 +69,12 @@ class LayerSpec:
     density: float = 0.55
     period: int = DEFAULT_PERIOD
 
+    def __post_init__(self) -> None:
+        if not 0.0 < self.density <= 1.0:
+            raise ValueError("LayerSpec.density must be in (0, 1]")
+        if self.period < 1:
+            raise ValueError("LayerSpec.period must be positive")
+
     @property
     def seed_hash(self) -> str:
         return hashlib.sha256(self.seed).hexdigest()
@@ -83,6 +89,9 @@ class DetectionResult:
     mean_correlation: float
     samples: int
     best_phase: int
+    phase_trials: int
+    p_value_uncorrected: float
+    p_value_corrected: float
     detected: bool
 
     def as_dict(self) -> dict:
@@ -94,6 +103,9 @@ class DetectionResult:
             "mean_correlation": self.mean_correlation,
             "samples": self.samples,
             "best_phase": self.best_phase,
+            "phase_trials": self.phase_trials,
+            "p_value_uncorrected": self.p_value_uncorrected,
+            "p_value_corrected": self.p_value_corrected,
             "detected": self.detected,
         }
 
@@ -219,15 +231,42 @@ def _hash_int(seed: bytes, layer_type: str, y_index: int, x_index: int, purpose:
     return int.from_bytes(h.digest()[:8], "big")
 
 
-def _pattern(seed: bytes, layer_type: str, pattern_y: int, pattern_x: int) -> tuple[bool, int, int]:
+def _normal_sf(z: float) -> float:
+    return 0.5 * math.erfc(z / math.sqrt(2.0))
+
+
+def _bonferroni_confidence(z: float, trials: int) -> tuple[float, float, float]:
+    p_uncorrected = min(1.0, max(0.0, _normal_sf(z)))
+    p_corrected = min(1.0, p_uncorrected * max(1, trials))
+    return 1.0 - p_corrected, p_uncorrected, p_corrected
+
+
+def _pattern(seed: bytes, layer_type: str, pattern_y: int, pattern_x: int, density: float) -> tuple[bool, int, int]:
     gate = _hash_int(seed, layer_type, pattern_y, pattern_x, "gate")
-    selected = (gate / (2**64 - 1)) < 0.55
+    selected = (gate / (2**64 - 1)) < density
     coeff_i = _hash_int(seed, layer_type, pattern_y, pattern_x, "coeff") % len(MID_FREQ_COEFFS)
     sign = 1 if (_hash_int(seed, layer_type, pattern_y, pattern_x, "sign") & 1) else -1
     return selected, coeff_i, sign
 
 
+def _pattern_table(layer: LayerSpec) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    selected = np.zeros((layer.period, layer.period), dtype=bool)
+    coeffs = np.zeros((layer.period, layer.period), dtype=np.int16)
+    signs = np.zeros((layer.period, layer.period), dtype=np.int8)
+    for y in range(layer.period):
+        for x in range(layer.period):
+            selected[y, x], coeffs[y, x], signs[y, x] = _pattern(
+                layer.seed,
+                layer.layer_type,
+                y,
+                x,
+                layer.density,
+            )
+    return selected, coeffs, signs
+
+
 def embed_layers(image: Image.Image, layers: Iterable[LayerSpec]) -> Image.Image:
+    layer_tables = [(layer, _pattern_table(layer)) for layer in layers]
     y, cb, cr = image_to_ycbcr_arrays(image)
     y_padded, original_shape = pad_to_block(y)
     out = y_padded.copy()
@@ -238,12 +277,13 @@ def embed_layers(image: Image.Image, layers: Iterable[LayerSpec]) -> Image.Image
         for bx in range(blocks_x):
             coeff = block_dct(out[by * BLOCK : (by + 1) * BLOCK, bx * BLOCK : (bx + 1) * BLOCK])
             changed = False
-            for layer in layers:
+            for layer, (selected_table, coeff_table, sign_table) in layer_tables:
                 pattern_y = by % layer.period
                 pattern_x = bx % layer.period
-                selected, coeff_i, sign = _pattern(layer.seed, layer.layer_type, pattern_y, pattern_x)
-                if not selected:
+                if not selected_table[pattern_y, pattern_x]:
                     continue
+                coeff_i = int(coeff_table[pattern_y, pattern_x])
+                sign = int(sign_table[pattern_y, pattern_x])
                 u, v = MID_FREQ_COEFFS[coeff_i]
                 coeff[u, v] += layer.alpha * sign
                 changed = True
@@ -254,7 +294,8 @@ def embed_layers(image: Image.Image, layers: Iterable[LayerSpec]) -> Image.Image
     return arrays_to_rgb(out, cb, cr)
 
 
-def detect_layer(image: Image.Image, layer: LayerSpec, threshold: float = 0.60) -> DetectionResult:
+def detect_layer(image: Image.Image, layer: LayerSpec, threshold: float = 0.95) -> DetectionResult:
+    selected_table, coeff_table, sign_table = _pattern_table(layer)
     y, _, _ = image_to_ycbcr_arrays(image)
     y_padded, _ = pad_to_block(y)
     blocks_y = y_padded.shape[0] // BLOCK
@@ -268,6 +309,12 @@ def detect_layer(image: Image.Image, layer: LayerSpec, threshold: float = 0.60) 
         block_coeffs.append(row)
 
     best: DetectionResult | None = None
+    phase_trials = layer.period * layer.period
+    coeff_baseline = {}
+    for coeff_i, (u, v) in enumerate(MID_FREQ_COEFFS):
+        coeff_baseline[coeff_i] = float(
+            np.mean([block_coeffs[by][bx][u, v] for by in range(blocks_y) for bx in range(blocks_x)])
+        )
     for phase_y in range(layer.period):
         for phase_x in range(layer.period):
             phase = phase_y * layer.period + phase_x
@@ -276,11 +323,12 @@ def detect_layer(image: Image.Image, layer: LayerSpec, threshold: float = 0.60) 
                 for bx in range(blocks_x):
                     pattern_y = (by + phase_y) % layer.period
                     pattern_x = (bx + phase_x) % layer.period
-                    selected, coeff_i, sign = _pattern(layer.seed, layer.layer_type, pattern_y, pattern_x)
-                    if not selected:
+                    if not selected_table[pattern_y, pattern_x]:
                         continue
+                    coeff_i = int(coeff_table[pattern_y, pattern_x])
+                    sign = int(sign_table[pattern_y, pattern_x])
                     u, v = MID_FREQ_COEFFS[coeff_i]
-                    values.append(float(sign * block_coeffs[by][bx][u, v]))
+                    values.append(float(sign * (block_coeffs[by][bx][u, v] - coeff_baseline[coeff_i])))
             if len(values) < 8:
                 continue
             arr = np.asarray(values, dtype=np.float64)
@@ -289,7 +337,7 @@ def detect_layer(image: Image.Image, layer: LayerSpec, threshold: float = 0.60) 
             if std < 1e-9:
                 std = 1.0
             z = mean / (std / math.sqrt(len(arr)))
-            confidence = 1.0 / (1.0 + math.exp(-0.55 * (z - 2.0)))
+            confidence, p_uncorrected, p_corrected = _bonferroni_confidence(z, phase_trials)
             result = DetectionResult(
                 layer_type=layer.layer_type,
                 layer_id=layer.layer_id,
@@ -298,16 +346,19 @@ def detect_layer(image: Image.Image, layer: LayerSpec, threshold: float = 0.60) 
                 mean_correlation=mean,
                 samples=len(values),
                 best_phase=phase,
+                phase_trials=phase_trials,
+                p_value_uncorrected=p_uncorrected,
+                p_value_corrected=p_corrected,
                 detected=confidence >= threshold,
             )
             if best is None or result.confidence > best.confidence:
                 best = result
     if best is None:
-        return DetectionResult(layer.layer_type, layer.layer_id, 0.0, 0.0, 0.0, 0, 0, False)
+        return DetectionResult(layer.layer_type, layer.layer_id, 0.0, 0.0, 0.0, 0, 0, phase_trials, 1.0, 1.0, False)
     return best
 
 
-def detect_registry(image: Image.Image, layers: Iterable[LayerSpec], threshold: float = 0.60) -> list[DetectionResult]:
+def detect_registry(image: Image.Image, layers: Iterable[LayerSpec], threshold: float = 0.95) -> list[DetectionResult]:
     return [detect_layer(image, layer, threshold=threshold) for layer in layers]
 
 

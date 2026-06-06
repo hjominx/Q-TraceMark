@@ -64,6 +64,27 @@ python3 scripts/run_demo.py --qrng-file /path/to/evk_C_1MB.bin
 50% 크롭본·밝기 변형본·부분 합성 ROI에서 work/copy 지문이 검출됩니다.
 상세 수치는 [`docs/assets/demo_report.json`](docs/assets/demo_report.json)에 포함되어 있습니다.
 
+## 오탐률 확인
+
+검출기는 crop offset을 모르는 상황을 가정해 17x17개의 phase 후보를 탐색합니다.
+따라서 단일 z-test confidence를 그대로 쓰면 false positive가 부풀려질 수 있습니다.
+현재 PoC는 Bonferroni 보정을 적용하여 `confidence = 1 - corrected_p_value`로 보고하고,
+기본 threshold는 `0.95`입니다.
+
+무워터마크 대조군에서 경험적 FPR을 측정하려면:
+
+```bash
+python3 scripts/measure_fpr.py --samples 12
+```
+
+예시 결과는 [`docs/assets/fpr_report.json`](docs/assets/fpr_report.json)에 포함되어 있습니다.
+
+보고서용으로는 실제 EVK QRNG 파일과 더 많은 대조군을 사용하세요.
+
+```bash
+python3 scripts/measure_fpr.py --qrng-file /path/to/evk_C_1MB.bin --samples 100
+```
+
 ## 프로젝트 구조
 
 ```text
@@ -72,9 +93,14 @@ Q-TraceMark/
     PROJECT_BRIEF.md
     EXPERIMENT_PLAN.md
     ARCHITECTURE.md
+  examples/
+    README.md
+  results/
+    .gitkeep
   scripts/
     qtracemark.py
     run_demo.py
+    measure_fpr.py
   tests/
     test_qtracemark.py
 ```
@@ -87,7 +113,8 @@ Q-TraceMark/
 - 작품 지문과 사본 지문 2계층 삽입
 - JPEG 압축, 크롭, 부분 합성 공격 예시
 - 후보 seed registry 기반 검출
-- confidence score와 evidence hash 출력
+- Bonferroni 보정 confidence score와 evidence hash 출력
+- 무워터마크 대조군 기반 경험적 FPR 측정 스크립트
 
 실서비스 수준으로 가려면 SIFT/ORB 정렬, 오류정정코드, 대규모 seed index,
 충돌/오탐 분석, 법적 timestamping, 개인정보 보호 설계가 추가되어야 합니다.

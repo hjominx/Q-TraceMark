@@ -52,9 +52,14 @@ copy_id      = 얇은 실: 사용자/세션별 사본 경로
 
 1. 의심 이미지의 Y 채널을 DCT로 변환
 2. registry의 후보 seed를 사용해 동일한 계수 위치와 부호를 재생성
-3. `sum(sign * coefficient)` 형태의 correlation score 계산
-4. z-score와 confidence score 산출
-5. threshold 이상이면 해당 work/copy seed 검출
+3. coefficient별 평균을 뺀 뒤 `sum(sign * centered_coefficient)` 형태의 correlation score 계산
+4. crop offset을 모르는 상황을 가정해 phase 후보 전체에서 최고 z-score 탐색
+5. `period^2`회 phase 탐색에 대해 Bonferroni 보정 p-value 계산
+6. `confidence = 1 - corrected_p_value`가 threshold 이상이면 해당 work/copy seed 검출
+
+이 보정은 중요합니다. 여러 phase를 동시에 시험하면 무워터마크 이미지에서도 우연히
+높은 단일 z-score가 나올 수 있습니다. 따라서 evidence package에는 원시 z-score뿐 아니라
+보정 전/후 p-value와 phase trial 수를 함께 기록합니다.
 
 ## 유통 경로 추적
 
@@ -69,4 +74,3 @@ work_id ART-2026-0017
 
 이는 "인터넷 전체 경로를 자동 추적"하는 기술이 아니라, Q-TraceMark가 발급한 사본
 기록을 기준으로 유출 출발점을 좁히는 포렌식 기술입니다.
-

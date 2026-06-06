@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
@@ -151,8 +152,12 @@ def main() -> None:
 
     evidence = {
         "project": "Q-TraceMark",
+        "evidence_schema_version": "0.2",
+        "issued_at_utc": datetime.now(timezone.utc).isoformat(),
         "work_id": work_id,
         "copy_id": copy_id,
+        "detection_threshold": 0.95,
+        "confidence_model": "one-sided z-test with Bonferroni correction over period^2 phase trials",
         "qrng_source": str(args.qrng_file) if args.qrng_file else "deterministic demo fallback; replace with EVK QRNG file for lab runs",
         "entropy_report": entropy.as_dict(),
         "master_seed_hash": hashlib.sha256(master_seed).hexdigest(),
@@ -162,6 +167,7 @@ def main() -> None:
                 "layer_id": layer.layer_id,
                 "seed_hash": layer.seed_hash,
                 "alpha": layer.alpha,
+                "density": layer.density,
                 "period": layer.period,
             }
             for layer in layers
