@@ -66,6 +66,14 @@ def _short_hash(value: str, keep: int = 16) -> str:
     return value[:keep] + "…" if len(value) > keep else value
 
 
+def _detection_map(report: dict) -> dict:
+    if "detections" in report:
+        return report["detections"]
+    if "attack_detections" in report:
+        return report["attack_detections"]
+    raise KeyError("report must contain either 'detections' or 'attack_detections'")
+
+
 def figure_watermark_diff(out: Path) -> None:
     work_dir = Path("results/figures_work")
     work_dir.mkdir(parents=True, exist_ok=True)
@@ -98,11 +106,12 @@ def figure_watermark_diff(out: Path) -> None:
     plt.close(fig)
 
 
-def figure_attack_confidence(demo: dict, out: Path) -> None:
-    names = [n for n in ATTACK_ORDER if n in demo["detections"]]
+def figure_attack_confidence(report: dict, out: Path, title_suffix: str = "") -> None:
+    detections = _detection_map(report)
+    names = [n for n in ATTACK_ORDER if n in detections]
     work_conf, copy_conf, work_z, copy_z = [], [], [], []
     for name in names:
-        rows = {row["layer_type"]: row for row in demo["detections"][name]}
+        rows = {row["layer_type"]: row for row in detections[name]}
         work_conf.append(rows["work"]["confidence"])
         copy_conf.append(rows["copy"]["confidence"])
         work_z.append(rows["work"]["z_score"])
@@ -131,14 +140,15 @@ def figure_attack_confidence(demo: dict, out: Path) -> None:
     ax.set_xticklabels([ATTACK_LABELS[n] for n in names])
     ax.set_ylim(0, 1.12)
     ax.set_ylabel("detection confidence")
-    ax.set_title("Detection confidence per attack (work / copy fingerprints)")
+    suffix = f" — {title_suffix}" if title_suffix else ""
+    ax.set_title(f"Detection confidence per attack (work / copy fingerprints){suffix}")
     ax.legend(loc="center right", framealpha=0.95)
     ax.spines[["top", "right"]].set_visible(False)
     fig.savefig(out)
     plt.close(fig)
 
 
-def figure_fpr_thresholds(validation: dict, out: Path) -> None:
+def figure_fpr_thresholds(validation: dict, out: Path, title_suffix: str = "") -> None:
     fpa = validation["false_positive_analysis"]
     sweep = fpa["threshold_sweep"]
     thresholds = [s["threshold"] for s in sweep]
@@ -165,12 +175,13 @@ def figure_fpr_thresholds(validation: dict, out: Path) -> None:
     ax.set_xticklabels([f"{t:g}" for t in thresholds])
     ax.set_xlabel("corrected-confidence threshold")
     ax.set_ylabel("false positive rate (unwatermarked controls)")
-    ax.set_title("False positive rate controlled by threshold sweep")
+    suffix = f" — {title_suffix}" if title_suffix else ""
+    ax.set_title(f"False positive rate controlled by threshold sweep{suffix}")
     ax.text(
         0.5,
         0.86,
         f"max confidence on {fpa['samples']} unwatermarked controls = {max_null:.3f}\n"
-        f"→ stays below every threshold (no false positives)",
+        f"threshold sweep reports empirical false positives",
         transform=ax.transAxes,
         ha="center",
         fontsize=10,
@@ -211,11 +222,12 @@ def _arrow(ax, x0, y0, x1, y1):
     )
 
 
-def figure_evidence_package(demo: dict, out: Path) -> None:
-    entropy = demo["entropy_report"]
-    work = next(l for l in demo["layers"] if l["layer_type"] == "work")
-    copy = next(l for l in demo["layers"] if l["layer_type"] == "copy")
-    wm_work = next(r for r in demo["detections"]["watermarked"] if r["layer_type"] == "work")
+def figure_evidence_package(report: dict, out: Path, title_suffix: str = "") -> None:
+    detections = _detection_map(report)
+    entropy = report["entropy_report"]
+    work = next(l for l in report["layers"] if l["layer_type"] == "work")
+    copy = next(l for l in report["layers"] if l["layer_type"] == "copy")
+    wm_work = next(r for r in detections["watermarked"] if r["layer_type"] == "work")
 
     fig, ax = plt.subplots(figsize=(13.5, 4.2))
     ax.set_xlim(0, 12)
@@ -236,7 +248,7 @@ def figure_evidence_package(demo: dict, out: Path) -> None:
         (
             "Seed hashes",
             [
-                f"master: {_short_hash(demo['master_seed_hash'])}",
+                f"master: {_short_hash(report['master_seed_hash'])}",
                 f"work:   {_short_hash(work['seed_hash'])}",
                 f"copy:   {_short_hash(copy['seed_hash'])}",
             ],
@@ -245,9 +257,9 @@ def figure_evidence_package(demo: dict, out: Path) -> None:
         (
             "Issue log",
             [
-                f"work_id: {demo['work_id']}",
-                f"copy_id: {demo['copy_id']}",
-                f"issued: {demo.get('issued_at_utc', 'n/a')[:19]}",
+                f"work_id: {report['work_id']}",
+                f"copy_id: {report['copy_id']}",
+                f"issued: {report.get('issued_at_utc', 'n/a')[:19]}",
                 f"alpha w/c: {work['alpha']}/{copy['alpha']}",
             ],
             NAVY,
@@ -269,7 +281,8 @@ def figure_evidence_package(demo: dict, out: Path) -> None:
         _box(ax, x, y, w, h, title, lines, color)
     for x in xs[:-1]:
         _arrow(ax, x + w + 0.02, y + h / 2, x + 3.0 - 0.02, y + h / 2)
-    ax.set_title("Evidence package: QRNG raw → seed hashes → issue log → detection report", color=NAVY, fontweight="bold")
+    suffix = f" — {title_suffix}" if title_suffix else ""
+    ax.set_title(f"Evidence package: QRNG raw → seed hashes → issue log → detection report{suffix}", color=NAVY, fontweight="bold")
     fig.savefig(out)
     plt.close(fig)
 
@@ -316,6 +329,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate Q-TraceMark presentation figures.")
     parser.add_argument("--demo-report", type=Path, default=ASSETS / "demo_report.json")
     parser.add_argument("--validation-report", type=Path, default=ASSETS / "validation_report.json")
+    parser.add_argument("--evk-demo-report", type=Path, default=ASSETS / "evk_demo_report.json")
+    parser.add_argument("--evk-validation-report", type=Path, default=ASSETS / "evk_validation_report.json")
     parser.add_argument("--out-dir", type=Path, default=ASSETS)
     return parser
 
@@ -326,14 +341,21 @@ def main() -> None:
     args.out_dir.mkdir(parents=True, exist_ok=True)
     demo = _load(args.demo_report)
     validation = _load(args.validation_report)
+    evk_demo = _load(args.evk_demo_report) if args.evk_demo_report.exists() else None
+    evk_validation = _load(args.evk_validation_report) if args.evk_validation_report.exists() else None
 
     outputs = {
         "fig_watermark_diff.png": lambda p: figure_watermark_diff(p),
-        "fig_attack_confidence.png": lambda p: figure_attack_confidence(demo, p),
-        "fig_fpr_thresholds.png": lambda p: figure_fpr_thresholds(validation, p),
-        "fig_evidence_package.png": lambda p: figure_evidence_package(demo, p),
+        "fig_attack_confidence.png": lambda p: figure_attack_confidence(demo, p, "demo fallback"),
+        "fig_fpr_thresholds.png": lambda p: figure_fpr_thresholds(validation, p, "demo fallback"),
+        "fig_evidence_package.png": lambda p: figure_evidence_package(demo, p, "demo fallback"),
         "fig_qtracemark_pipeline.png": lambda p: figure_pipeline(p),
     }
+    if evk_demo is not None:
+        outputs["evk_fig_attack_confidence.png"] = lambda p: figure_attack_confidence(evk_demo, p, "EVK C seed")
+        outputs["evk_fig_evidence_package.png"] = lambda p: figure_evidence_package(evk_demo, p, "EVK C seed")
+    if evk_validation is not None:
+        outputs["evk_fig_fpr_thresholds.png"] = lambda p: figure_fpr_thresholds(evk_validation, p, "EVK C seed")
     for name, fn in outputs.items():
         path = args.out_dir / name
         fn(path)

@@ -2,8 +2,10 @@
 
 ## Summary
 
-This report records the Q-TraceMark run using the real EVK QRNG bitstreams in
-`data/qrng/`. The primary watermark seed source is `evk_C_1MB.bin`.
+This report records the Q-TraceMark run using the real EVK QRNG bitstreams placed
+locally in `data/qrng/`. Raw `.bin` files are ignored by Git; the public repository
+stores derived hashes, entropy summaries, and validation reports. The primary
+watermark seed source is `evk_C_1MB.bin`.
 
 The experiment demonstrates that Q-TraceMark can issue watermark seeds from the
 class EVK QRNG files, preserve the seed quality report in the evidence package,
@@ -35,6 +37,8 @@ The EVK demo report is stored at:
 All attacked watermarked images passed detection, while the unwatermarked source
 image remained below threshold.
 
+![EVK detection confidence per attack](assets/evk_fig_attack_confidence.png)
+
 ## False Positive Rate Sweep
 
 The EVK FPR report is stored at:
@@ -54,6 +58,12 @@ shows why threshold sweeping is necessary for evidence-style claims.
 For report-grade or dispute-grade claims, Q-TraceMark should use `0.999` as the
 decision threshold unless a larger empirical null set justifies a lower value.
 
+![EVK false positive rate by threshold](assets/evk_fig_fpr_thresholds.png)
+
+## Evidence Package Figure
+
+![EVK evidence package](assets/evk_fig_evidence_package.png)
+
 ## Exact Commands
 
 ```bash
@@ -62,4 +72,3 @@ python3 scripts/run_demo.py --qrng-file data/qrng/evk_C_1MB.bin --out results/ev
 python3 scripts/measure_fpr.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_fpr/fpr_report.json
 python3 scripts/run_validation_suite.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_validation/validation_report.json --no-docs
 ```
-

@@ -7,4 +7,5 @@ __pycache__/
 venv/
 results/*
 !results/.gitkeep
+data/qrng/*.bin
 *.log

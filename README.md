@@ -119,7 +119,8 @@ python3 scripts/measure_fpr.py --controls-dir data/controls --samples 100
 
 ## Actual EVK QRNG run
 
-This repository includes the class EVK QRNG raw bitstreams under `data/qrng/`.
+Place the class EVK QRNG raw bitstreams under `data/qrng/`. Raw `.bin` files are
+ignored by Git, while derived hashes/statistics are committed under `docs/assets/`.
 The primary real-QRNG experiment uses `data/qrng/evk_C_1MB.bin` as the watermark
 seed source.
 
@@ -143,6 +144,9 @@ EVK report assets:
 - [`docs/assets/evk_demo_report.json`](docs/assets/evk_demo_report.json)
 - [`docs/assets/evk_fpr_report.json`](docs/assets/evk_fpr_report.json)
 - [`docs/assets/evk_validation_report.json`](docs/assets/evk_validation_report.json)
+- [`docs/assets/evk_fig_attack_confidence.png`](docs/assets/evk_fig_attack_confidence.png)
+- [`docs/assets/evk_fig_fpr_thresholds.png`](docs/assets/evk_fig_fpr_thresholds.png)
+- [`docs/assets/evk_fig_evidence_package.png`](docs/assets/evk_fig_evidence_package.png)
 
 In the committed EVK FPR sweep, threshold `0.95` produced `4/100` synthetic-control
 false positives, threshold `0.99` produced `1/100`, and threshold `0.999` produced
@@ -164,6 +168,9 @@ python3 scripts/make_figures.py
 - `fig_attack_confidence.png`: 공격별 work/copy 검출 confidence
 - `fig_fpr_thresholds.png`: threshold sweep별 오탐률
 - `fig_evidence_package.png`: QRNG raw → seed hash → 발급 로그 → 검출 리포트 구조
+- `evk_fig_attack_confidence.png`: EVK C seed 기반 공격별 confidence
+- `evk_fig_fpr_thresholds.png`: EVK C seed 기반 threshold sweep
+- `evk_fig_evidence_package.png`: EVK C seed 기반 evidence package
 
 ![Q-TraceMark pipeline](docs/assets/fig_qtracemark_pipeline.png)
 
@@ -175,15 +182,22 @@ python3 scripts/make_figures.py
 
 ![Evidence package](docs/assets/fig_evidence_package.png)
 
+EVK-specific figures:
+
+![EVK detection confidence per attack](docs/assets/evk_fig_attack_confidence.png)
+
+![EVK false positive rate by threshold](docs/assets/evk_fig_fpr_thresholds.png)
+
+![EVK evidence package](docs/assets/evk_fig_evidence_package.png)
+
 ## 프로젝트 구조
 
 ```text
 Q-TraceMark/
   data/
     qrng/
-      evk_A_1MB.bin
-      evk_B_01.bin ... evk_B_10.bin
-      evk_C_1MB.bin
+      README.md
+      *.bin  (local only; ignored by Git)
   docs/
     PROJECT_BRIEF.md
     EXPERIMENT_PLAN.md
