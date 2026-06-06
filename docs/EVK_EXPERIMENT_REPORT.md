@@ -76,5 +76,8 @@ decision threshold unless a larger empirical null set justifies a lower value.
 python3 scripts/analyze_qrng_files.py --data-dir data/qrng --out docs/assets/evk_qrng_quality_report.json
 python3 scripts/run_demo.py --qrng-file data/qrng/evk_C_1MB.bin --out results/evk_demo
 python3 scripts/measure_fpr.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_fpr/fpr_report.json
-python3 scripts/run_validation_suite.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_validation/validation_report.json --no-docs
+python3 scripts/run_validation_suite.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_validation/validation_report.json
 ```
+
+The validation suite writes only to `--out` by default; pass `--update-docs` to also
+refresh `docs/assets/validation_report.json`.

@@ -129,3 +129,5 @@ python3 scripts/analyze_qrng_files.py
 - EVK seed `evk_C_1MB.bin`은 과거 공개 이력으로 폐기 대상 — 최종 실험은 새 EVK
   수집 파일로 재실행 권장 (수치는 위 결과로 재현 가능).
 - 검출 robustness는 강한 AI 재생성·미세 crop·재촬영에서 저하될 수 있음(미검증).
+- Bonferroni 보정은 seed 내부 phase 탐색(`period^2`)만 보정. 대규모 registry로 확장 시
+  후보 수 보정 또는 registry-level FPR 측정 필요 (현재 2-layer PoC는 경험적 FPR로 방어).

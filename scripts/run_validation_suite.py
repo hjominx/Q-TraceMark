@@ -42,7 +42,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--height", type=int, default=224, help="Synthetic control image height")
     parser.add_argument("--thresholds", type=str, default=DEFAULT_THRESHOLDS, help="Comma-separated corrected-confidence thresholds")
     parser.add_argument("--out", type=Path, default=Path("results/validation/validation_report.json"), help="Output report path")
-    parser.add_argument("--no-docs", action="store_true", help="Skip writing docs/assets/validation_report.json")
+    parser.add_argument("--update-docs", action="store_true", help="Also overwrite docs/assets/validation_report.json (off by default)")
     return parser
 
 
@@ -115,7 +115,7 @@ def main() -> None:
     }
 
     save_json(args.out, report)
-    if not args.no_docs:
+    if args.update_docs:
         save_json(DOCS_REPORT, report)
 
     summary = {

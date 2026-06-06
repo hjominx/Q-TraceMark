@@ -114,15 +114,24 @@ python3 scripts/measure_fpr.py --controls-dir data/controls --samples 100
 - 무워터마크 대조군 기반 경험적 FPR
 - threshold 0.95 / 0.99 / 0.999 sweep
 
-결과는 `results/validation/validation_report.json`에 저장되고, 예시 결과는
-[`docs/assets/validation_report.json`](docs/assets/validation_report.json)에 포함되어 있습니다.
+결과는 `results/validation/validation_report.json`에만 저장됩니다(기본값). 발표용
+예시 그림의 소스인 [`docs/assets/validation_report.json`](docs/assets/validation_report.json)을
+함께 갱신하려면 `--update-docs`를 명시합니다. 기본 실행은 작업 트리를 더럽히지 않습니다.
 
 ## Actual EVK QRNG run
 
+> ⚠️ **Seed status.** The committed `evk_C_1MB.bin` numbers below are a
+> **reproduction record only**. That file was briefly published in Git history and
+> is treated as compromised, so it has been purged and must not be reused. For
+> final / dispute-grade runs, collect a **fresh EVK capture**, keep it only locally
+> in `data/qrng/` (never commit raw `.bin`), and rerun the commands below against
+> the new file. See [`docs/EVK_EXPERIMENT_REPORT.md`](docs/EVK_EXPERIMENT_REPORT.md)
+> and [`data/qrng/README.md`](data/qrng/README.md).
+
 Place the class EVK QRNG raw bitstreams under `data/qrng/`. Raw `.bin` files are
 ignored by Git, while derived hashes/statistics are committed under `docs/assets/`.
-The primary real-QRNG experiment uses `data/qrng/evk_C_1MB.bin` as the watermark
-seed source.
+The example below uses `data/qrng/evk_C_1MB.bin`; substitute your fresh capture's
+filename for real runs.
 
 ```bash
 python3 scripts/analyze_qrng_files.py --data-dir data/qrng

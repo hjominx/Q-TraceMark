@@ -63,6 +63,22 @@ copy_id      = 얇은 실: 사용자/세션별 사본 경로
 높은 단일 z-score가 나올 수 있습니다. 따라서 evidence package에는 원시 z-score뿐 아니라
 보정 전/후 p-value와 phase trial 수를 함께 기록합니다.
 
+### 보정 범위의 한계 (registry-level FPR)
+
+현재 Bonferroni 보정은 **한 seed 안의 phase 탐색 횟수(`period^2`)만** 보정합니다
+(`qtracemark.py`의 `detect_layer`). `detect_registry`는 여러 후보 seed/layer를 각각
+독립적으로 돌리므로, **후보 수에 대한 보정은 들어가지 않습니다.**
+
+- 현재 PoC는 work/copy 2-layer만 조회하고, 경험적 FPR(무워터마크 대조군) sweep으로
+  실제 오탐을 직접 측정하므로 안전합니다.
+- 그러나 문서가 언급하는 "registry lookup / 대규모 seed index"로 확장하면, 후보가
+  N개일 때 family-wise 오탐이 다시 N배로 부풀 수 있습니다.
+- 대규모 서비스에서는 (1) phase + 후보 수를 함께 보정하거나, (2) registry 전체에 대한
+  **registry-level 경험적 FPR**을 측정해 threshold를 정해야 합니다.
+
+발표 시에는 "현재는 소규모 registry PoC이며, 대규모 운영에는 registry-level FPR 또는
+후보 수 보정이 추가로 필요하다"고 명시하는 것이 안전합니다.
+
 ## 증거 패키지 구조
 
 발급부터 검출까지의 hash 체인을 하나의 감사 가능한 패키지로 묶습니다.

@@ -160,17 +160,20 @@ python3 scripts/run_validation_suite.py --controls-dir data/controls --samples 1
 
 수업 EVK 실습에서 추출한 `.bin` 파일은 로컬 `data/qrng/`에 보관한다. raw `.bin`은 Git에
 커밋하지 않고, 공개 저장소에는 SHA-256 hash와 품질 통계, 검증 리포트만 남긴다.
-실제 QRNG 기반 실행은 deterministic fallback이 아니라 `evk_C_1MB.bin`을 seed source로
-사용한다.
+
+> ⚠️ **폐기된 seed 주의.** 아래 `evk_C_1MB.bin` 수치는 **재현 기록**일 뿐이다. 이 파일은
+> 과거 Git 히스토리에 공개된 적이 있어 compromised로 간주하고 폐기했다. 최종/분쟁용
+> 실행은 새로 수집한 EVK capture를 사용하고(로컬 보관, raw 커밋 금지), 아래 명령의
+> 파일명을 새 capture로 교체한다.
 
 ```bash
 python3 scripts/analyze_qrng_files.py --data-dir data/qrng --out docs/assets/evk_qrng_quality_report.json
-python3 scripts/run_demo.py --qrng-file data/qrng/evk_C_1MB.bin --out results/evk_demo
-python3 scripts/measure_fpr.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_fpr/fpr_report.json
-python3 scripts/run_validation_suite.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_validation/validation_report.json --no-docs
+python3 scripts/run_demo.py --qrng-file data/qrng/<새_capture>.bin --out results/evk_demo
+python3 scripts/measure_fpr.py --qrng-file data/qrng/<새_capture>.bin --samples 100 --out results/evk_fpr/fpr_report.json
+python3 scripts/run_validation_suite.py --qrng-file data/qrng/<새_capture>.bin --samples 100 --out results/evk_validation/validation_report.json
 ```
 
-`evk_C_1MB.bin`의 품질 요약:
+(과거 실행) `evk_C_1MB.bin`의 품질 요약:
 
 | 항목 | 값 |
 |---|---:|
