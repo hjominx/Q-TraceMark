@@ -14,6 +14,8 @@ flowchart LR
   H --> I["Evidence package"]
 ```
 
+![Q-TraceMark pipeline](assets/fig_qtracemark_pipeline.png)
+
 ## 발급 계층
 
 Q-TraceMark는 하나의 seed만 쓰지 않습니다. 목적별로 계층을 나눕니다.
@@ -60,6 +62,12 @@ copy_id      = 얇은 실: 사용자/세션별 사본 경로
 이 보정은 중요합니다. 여러 phase를 동시에 시험하면 무워터마크 이미지에서도 우연히
 높은 단일 z-score가 나올 수 있습니다. 따라서 evidence package에는 원시 z-score뿐 아니라
 보정 전/후 p-value와 phase trial 수를 함께 기록합니다.
+
+## 증거 패키지 구조
+
+발급부터 검출까지의 hash 체인을 하나의 감사 가능한 패키지로 묶습니다.
+
+![Evidence package](assets/fig_evidence_package.png)
 
 ## 유통 경로 추적
 

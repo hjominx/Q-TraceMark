@@ -24,6 +24,8 @@
 Q-TraceMark는 이미지를 차단하는 DRM이 아니라, 이미지 안에 작품별·사본별
 forensic fingerprint를 삽입하여 사후 추적을 가능하게 하는 시스템입니다.
 
+![Q-TraceMark pipeline](assets/fig_qtracemark_pipeline.png)
+
 핵심은 다음 세 계층입니다.
 
 - **작품 지문**: 이미지가 어떤 원작품에서 왔는지 식별
@@ -82,6 +84,12 @@ EVK QRNG에서 얻은 원시 난수는 다음 절차를 거칩니다.
 - 합성 이미지의 삽입 조각에서 원본 지문 검출 가능
 - 강한 blur, 과도한 AI 재생성, 매우 작은 crop에서는 검출률 저하
 - 무워터마크 대조군에서는 보정 confidence가 threshold 이하로 유지되어야 함
+
+데모 실험에서 측정한 공격별 검출 confidence와 threshold sweep 오탐률은 다음과 같습니다.
+
+![Detection confidence per attack](assets/fig_attack_confidence.png)
+
+![False positive rate by threshold](assets/fig_fpr_thresholds.png)
 
 ## 8. 상용화 가능성
 

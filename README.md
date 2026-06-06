@@ -7,8 +7,6 @@ EVK QRNG에서 생성한 물리 난수로 작품별·사본별 forensic fingerpr
 난수 품질, seed hash, 발급 시각, 검출 신뢰도까지 묶어 저작권 분쟁에 사용할 수 있는
 증거 패키지를 만드는 것을 목표로 합니다.
 
-> 이미지를 막지 않는다. 남은 조각만으로도 출처를 증명한다.
-
 ## 핵심 아이디어
 
 - `work_id`: 어떤 원작품인지 추적하는 작품 지문
@@ -119,6 +117,32 @@ python3 scripts/measure_fpr.py --controls-dir data/controls --samples 100
 결과는 `results/validation/validation_report.json`에 저장되고, 예시 결과는
 [`docs/assets/validation_report.json`](docs/assets/validation_report.json)에 포함되어 있습니다.
 
+## Presentation figures
+
+발표자료·보고서에 바로 넣을 수 있는 그림은 리포트 JSON에서 직접 생성합니다.
+
+```bash
+python3 scripts/make_figures.py
+```
+
+생성되는 그림(모두 `docs/assets/`):
+
+- `fig_qtracemark_pipeline.png`: 전체 파이프라인
+- `fig_watermark_diff.png`: source / watermarked / 증폭 difference heatmap
+- `fig_attack_confidence.png`: 공격별 work/copy 검출 confidence
+- `fig_fpr_thresholds.png`: threshold sweep별 오탐률
+- `fig_evidence_package.png`: QRNG raw → seed hash → 발급 로그 → 검출 리포트 구조
+
+![Q-TraceMark pipeline](docs/assets/fig_qtracemark_pipeline.png)
+
+![Detection confidence per attack](docs/assets/fig_attack_confidence.png)
+
+![Watermark difference](docs/assets/fig_watermark_diff.png)
+
+![False positive rate by threshold](docs/assets/fig_fpr_thresholds.png)
+
+![Evidence package](docs/assets/fig_evidence_package.png)
+
 ## 프로젝트 구조
 
 ```text
@@ -136,6 +160,7 @@ Q-TraceMark/
     run_demo.py
     measure_fpr.py
     run_validation_suite.py
+    make_figures.py
   tests/
     test_qtracemark.py
 ```
