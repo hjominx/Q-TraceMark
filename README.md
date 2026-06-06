@@ -117,6 +117,38 @@ python3 scripts/measure_fpr.py --controls-dir data/controls --samples 100
 결과는 `results/validation/validation_report.json`에 저장되고, 예시 결과는
 [`docs/assets/validation_report.json`](docs/assets/validation_report.json)에 포함되어 있습니다.
 
+## Actual EVK QRNG run
+
+This repository includes the class EVK QRNG raw bitstreams under `data/qrng/`.
+The primary real-QRNG experiment uses `data/qrng/evk_C_1MB.bin` as the watermark
+seed source.
+
+```bash
+python3 scripts/analyze_qrng_files.py --data-dir data/qrng
+python3 scripts/run_demo.py --qrng-file data/qrng/evk_C_1MB.bin --out results/evk_demo
+python3 scripts/measure_fpr.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_fpr/fpr_report.json
+```
+
+EVK `C` quality summary:
+
+- SHA-256: `f80e1b6577c1c2439c6d71e66d6cd4c24ab7fd6701021358b7c822d031e8cf14`
+- bit-one ratio: `0.5001698732`
+- byte entropy: `7.9998220231` bits/byte
+- longest run: `23` bits
+
+EVK report assets:
+
+- [`docs/EVK_EXPERIMENT_REPORT.md`](docs/EVK_EXPERIMENT_REPORT.md)
+- [`docs/assets/evk_qrng_quality_report.json`](docs/assets/evk_qrng_quality_report.json)
+- [`docs/assets/evk_demo_report.json`](docs/assets/evk_demo_report.json)
+- [`docs/assets/evk_fpr_report.json`](docs/assets/evk_fpr_report.json)
+- [`docs/assets/evk_validation_report.json`](docs/assets/evk_validation_report.json)
+
+In the committed EVK FPR sweep, threshold `0.95` produced `4/100` synthetic-control
+false positives, threshold `0.99` produced `1/100`, and threshold `0.999` produced
+`0/100`. For report-grade or dispute-grade claims, use `0.999` unless a larger
+empirical null set justifies a lower threshold.
+
 ## Presentation figures
 
 발표자료·보고서에 바로 넣을 수 있는 그림은 리포트 JSON에서 직접 생성합니다.
@@ -147,10 +179,16 @@ python3 scripts/make_figures.py
 
 ```text
 Q-TraceMark/
+  data/
+    qrng/
+      evk_A_1MB.bin
+      evk_B_01.bin ... evk_B_10.bin
+      evk_C_1MB.bin
   docs/
     PROJECT_BRIEF.md
     EXPERIMENT_PLAN.md
     ARCHITECTURE.md
+    EVK_EXPERIMENT_REPORT.md
   examples/
     README.md
   results/
@@ -161,6 +199,7 @@ Q-TraceMark/
     measure_fpr.py
     run_validation_suite.py
     make_figures.py
+    analyze_qrng_files.py
   tests/
     test_qtracemark.py
 ```
@@ -176,6 +215,7 @@ Q-TraceMark/
 - Bonferroni 보정 confidence score와 evidence hash 출력
 - 무워터마크 대조군 기반 경험적 FPR 측정 스크립트
 - 실제 사진 대조군 + threshold sweep을 포함한 report-grade 검증 스위트
+- 실제 EVK QRNG raw bitstream 기반 seed 발급과 품질 리포트
 
 실서비스 수준으로 가려면 SIFT/ORB 정렬, 오류정정코드, 대규모 seed index,
 충돌/오탐 분석, 법적 timestamping, 개인정보 보호 설계가 추가되어야 합니다.

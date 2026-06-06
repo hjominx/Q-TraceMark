@@ -156,7 +156,32 @@ python3 scripts/run_validation_suite.py --controls-dir data/controls --samples 1
 - 발급 timestamp
 - 검출 성공/실패
 
-## 8. 주의사항
+## 8. 실제 EVK QRNG 실행
+
+본 레포에는 수업 EVK 실습에서 추출한 `.bin` 파일을 `data/qrng/`에 포함한다. 실제 QRNG
+기반 실행은 deterministic fallback이 아니라 `evk_C_1MB.bin`을 seed source로 사용한다.
+
+```bash
+python3 scripts/analyze_qrng_files.py --data-dir data/qrng --out docs/assets/evk_qrng_quality_report.json
+python3 scripts/run_demo.py --qrng-file data/qrng/evk_C_1MB.bin --out results/evk_demo
+python3 scripts/measure_fpr.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_fpr/fpr_report.json
+python3 scripts/run_validation_suite.py --qrng-file data/qrng/evk_C_1MB.bin --samples 100 --out results/evk_validation/validation_report.json --no-docs
+```
+
+`evk_C_1MB.bin`의 품질 요약:
+
+| 항목 | 값 |
+|---|---:|
+| byte count | 1,048,576 |
+| bit-one ratio | 0.5001698732 |
+| byte entropy | 7.9998220231 bits/byte |
+| longest run | 23 bits |
+
+EVK FPR sweep에서는 threshold 0.95에서 4/100, 0.99에서 1/100, 0.999에서 0/100의
+false positive가 관찰되었다. 따라서 발표와 보고서에서는 "검출기는 threshold sweep으로
+운영되어야 하며, 증거용 판정에는 0.999 threshold를 권장한다"고 설명한다.
+
+## 9. 주의사항
 
 본 실험은 "복제 방지"가 아니라 "사후 추적" 실험이다. 강한 AI 재생성,
 매우 작은 crop, 카메라 재촬영에서는 검출률이 낮아질 수 있다.

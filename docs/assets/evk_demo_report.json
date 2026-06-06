@@ -1,0 +1,214 @@
+{
+  "project": "Q-TraceMark",
+  "evidence_schema_version": "0.2",
+  "issued_at_utc": "2026-06-06T14:36:47.972446+00:00",
+  "work_id": "ART-2026-QRNG-001",
+  "copy_id": "COPY-PLATFORM-A-USER-8832",
+  "detection_threshold": 0.95,
+  "confidence_model": "one-sided z-test with Bonferroni correction over period^2 phase trials",
+  "qrng_source": "data/qrng/evk_C_1MB.bin",
+  "entropy_report": {
+    "byte_count": 1048576,
+    "sha256": "f80e1b6577c1c2439c6d71e66d6cd4c24ab7fd6701021358b7c822d031e8cf14",
+    "bit_one_ratio": 0.5001698732376099,
+    "byte_entropy_bits_per_byte": 7.999822023132,
+    "longest_run_bits": 23
+  },
+  "master_seed_hash": "c101f6abfcd31e79c77f2bc9eaf6c8fb3b9fb18f43fce6fc9dc73fbe159d84fa",
+  "layers": [
+    {
+      "layer_type": "work",
+      "layer_id": "ART-2026-QRNG-001",
+      "seed_hash": "dc03644315770b0887c2d29b9b351641ae65a9921f20202daa45e71f6009308c",
+      "alpha": 10.0,
+      "density": 0.55,
+      "period": 17
+    },
+    {
+      "layer_type": "copy",
+      "layer_id": "COPY-PLATFORM-A-USER-8832",
+      "seed_hash": "0d920b049129a2218288a95c345c6384f13740170a56d94834dce93ac9c86f16",
+      "alpha": 7.0,
+      "density": 0.55,
+      "period": 17
+    }
+  ],
+  "detections": {
+    "source": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 0.0,
+        "z_score": -1.9718686681899635,
+        "mean_correlation": -0.8492667000542121,
+        "samples": 3193,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 0.9756876995679943,
+        "p_value_corrected": 1.0,
+        "detected": false
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 0.0,
+        "z_score": 0.16184513242857906,
+        "mean_correlation": 0.06087347084047642,
+        "samples": 3430,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 0.43571390549818206,
+        "p_value_corrected": 1.0,
+        "detected": false
+      }
+    ],
+    "watermarked": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 20.694861158949656,
+        "mean_correlation": 8.921594969200166,
+        "samples": 3193,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 1.92668176469079e-95,
+        "p_value_corrected": 5.5681102999563834e-93,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 19.52325420776101,
+        "mean_correlation": 7.363981249298822,
+        "samples": 3430,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 3.4828609357792654e-85,
+        "p_value_corrected": 1.0065468104402077e-82,
+        "detected": true
+      }
+    ],
+    "jpeg_q70": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 18.848895722259517,
+        "mean_correlation": 8.219615591679032,
+        "samples": 3193,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 1.5002014079899534e-79,
+        "p_value_corrected": 4.3355820690909655e-77,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 21.166676305601378,
+        "mean_correlation": 8.060761998066674,
+        "samples": 3430,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 9.68743899815867e-100,
+        "p_value_corrected": 2.799669870467856e-97,
+        "detected": true
+      }
+    ],
+    "crop_50pct": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 1.0,
+        "z_score": 14.572920548980633,
+        "mean_correlation": 8.699152133047948,
+        "samples": 1409,
+        "best_phase": 207,
+        "phase_trials": 289,
+        "p_value_uncorrected": 2.0882358942016206e-48,
+        "p_value_corrected": 6.0350017342426836e-46,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 15.278935061270735,
+        "mean_correlation": 7.443817090009018,
+        "samples": 1493,
+        "best_phase": 207,
+        "phase_trials": 289,
+        "p_value_uncorrected": 5.282657526888597e-53,
+        "p_value_corrected": 1.5266880252708046e-50,
+        "detected": true
+      }
+    ],
+    "brightness": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 0.9999999999802187,
+        "z_score": 7.399309311416992,
+        "mean_correlation": 2.8224376475801574,
+        "samples": 3193,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 6.844732360471951e-14,
+        "p_value_corrected": 1.9781276521763938e-11,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 0.9999999999999928,
+        "z_score": 8.386550442869233,
+        "mean_correlation": 2.803934133581336,
+        "samples": 3430,
+        "best_phase": 0,
+        "phase_trials": 289,
+        "p_value_uncorrected": 2.503074770992045e-17,
+        "p_value_corrected": 7.23388608816701e-15,
+        "detected": true
+      }
+    ],
+    "pasted_fragment": [
+      {
+        "layer_type": "work",
+        "layer_id": "ART-2026-QRNG-001",
+        "confidence": 0.9999999999996761,
+        "z_score": 7.927212160550157,
+        "mean_correlation": 7.586933851179859,
+        "samples": 828,
+        "best_phase": 216,
+        "phase_trials": 289,
+        "p_value_uncorrected": 1.120601055964733e-15,
+        "p_value_corrected": 3.2385370517380783e-13,
+        "detected": true
+      },
+      {
+        "layer_type": "copy",
+        "layer_id": "COPY-PLATFORM-A-USER-8832",
+        "confidence": 1.0,
+        "z_score": 9.620895411388139,
+        "mean_correlation": 6.7653463645419345,
+        "samples": 888,
+        "best_phase": 216,
+        "phase_trials": 289,
+        "p_value_uncorrected": 3.263028138035216e-22,
+        "p_value_corrected": 9.430151318921775e-20,
+        "detected": true
+      }
+    ]
+  },
+  "attack_regions": {
+    "pasted_fragment": [
+      224,
+      112,
+      576,
+      400
+    ]
+  }
+}

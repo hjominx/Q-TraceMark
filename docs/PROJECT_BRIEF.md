@@ -85,6 +85,19 @@ EVK QRNG에서 얻은 원시 난수는 다음 절차를 거칩니다.
 - 강한 blur, 과도한 AI 재생성, 매우 작은 crop에서는 검출률 저하
 - 무워터마크 대조군에서는 보정 confidence가 threshold 이하로 유지되어야 함
 
+## 7.1 실제 EVK QRNG 실행 결과
+
+수업 EVK 실습에서 추출한 `evk_C_1MB.bin`을 실제 seed source로 사용한 실행 결과,
+QRNG 품질 리포트와 watermark 검출 리포트가 evidence package에 포함되었다.
+
+- `evk_C_1MB.bin` bit-one ratio: 0.5001698732
+- byte entropy: 7.9998220231 bits/byte
+- longest run: 23 bits
+- attack detection: JPEG, crop, brightness, pasted fragment 모두 통과
+- FPR sweep: threshold 0.95 = 4/100, 0.99 = 1/100, 0.999 = 0/100
+
+따라서 보고서/분쟁용 판정에는 0.999 corrected-confidence threshold를 권장한다.
+
 데모 실험에서 측정한 공격별 검출 confidence와 threshold sweep 오탐률은 다음과 같습니다.
 
 ![Detection confidence per attack](assets/fig_attack_confidence.png)

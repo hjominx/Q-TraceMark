@@ -1,0 +1,163 @@
+{
+  "project": "Q-TraceMark",
+  "report_type": "evk_qrng_quality",
+  "issued_at_utc": "2026-06-06T14:36:41.388271+00:00",
+  "data_dir": "data/qrng",
+  "file_count": 12,
+  "files": [
+    {
+      "byte_count": 1048576,
+      "sha256": "d74f53a4aee0854da167aebcbf8fac9d5e00e6f60cf50d8c5bd4e79c4be4d75d",
+      "bit_one_ratio": 0.49987316131591797,
+      "byte_entropy_bits_per_byte": 7.999836840044125,
+      "longest_run_bits": 24,
+      "file": "evk_A_1MB.bin",
+      "relative_path": "data/qrng/evk_A_1MB.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "517df703974d1d638955121fe1266bace0a598daffe85eabffa4259e6ebc366c",
+      "bit_one_ratio": 0.500833740234375,
+      "byte_entropy_bits_per_byte": 7.998123137160103,
+      "longest_run_bits": 19,
+      "file": "evk_B_01.bin",
+      "relative_path": "data/qrng/evk_B_01.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "9acd840efea5bb33e960aeb8e9a301101d7a060733d642a79c5883b3dbac37c4",
+      "bit_one_ratio": 0.499404296875,
+      "byte_entropy_bits_per_byte": 7.998248179040474,
+      "longest_run_bits": 17,
+      "file": "evk_B_02.bin",
+      "relative_path": "data/qrng/evk_B_02.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "e4b128968c7d5fd704990ac9a060d294af9ab0548407bc1595dfe682da4536de",
+      "bit_one_ratio": 0.4996875,
+      "byte_entropy_bits_per_byte": 7.998407660933182,
+      "longest_run_bits": 18,
+      "file": "evk_B_03.bin",
+      "relative_path": "data/qrng/evk_B_03.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "2092a33b5ef29d1c66409ac8144dd100395dfdff2bd957fc486fff4282ec1be7",
+      "bit_one_ratio": 0.50129150390625,
+      "byte_entropy_bits_per_byte": 7.998143910986629,
+      "longest_run_bits": 20,
+      "file": "evk_B_04.bin",
+      "relative_path": "data/qrng/evk_B_04.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "b7db5d469e5a51064cfd43aca5fe40e9c67baa45121cd0f0b8405167e85dbd1a",
+      "bit_one_ratio": 0.500615234375,
+      "byte_entropy_bits_per_byte": 7.998255068564193,
+      "longest_run_bits": 23,
+      "file": "evk_B_05.bin",
+      "relative_path": "data/qrng/evk_B_05.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "b48ab1d68d9921472dd04ff446b89970c5a5e9b50b7ada852615dff054792178",
+      "bit_one_ratio": 0.500140380859375,
+      "byte_entropy_bits_per_byte": 7.997991665116665,
+      "longest_run_bits": 20,
+      "file": "evk_B_06.bin",
+      "relative_path": "data/qrng/evk_B_06.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "29e691658c69b5236c1a2d5bb2329258b946a5bb0f32d34cc9c8ce4f15b24d8d",
+      "bit_one_ratio": 0.500126953125,
+      "byte_entropy_bits_per_byte": 7.998006824305805,
+      "longest_run_bits": 18,
+      "file": "evk_B_07.bin",
+      "relative_path": "data/qrng/evk_B_07.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "5d3835780e66f62ea230e4cc3c5a811c61a0763e000613bbae129221d5d96a1a",
+      "bit_one_ratio": 0.500164794921875,
+      "byte_entropy_bits_per_byte": 7.997902959626119,
+      "longest_run_bits": 22,
+      "file": "evk_B_08.bin",
+      "relative_path": "data/qrng/evk_B_08.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "f934d1ad3555336b6135cf236f45e6faa67a21bce1a65b30e2dbe341ca0d94a6",
+      "bit_one_ratio": 0.5004052734375,
+      "byte_entropy_bits_per_byte": 7.998207551645462,
+      "longest_run_bits": 21,
+      "file": "evk_B_09.bin",
+      "relative_path": "data/qrng/evk_B_09.bin"
+    },
+    {
+      "byte_count": 102400,
+      "sha256": "9ded516cade3c7dd226c3ea00b289c2d2498ecaf9f83f2d232642cf9cefa41ad",
+      "bit_one_ratio": 0.500054931640625,
+      "byte_entropy_bits_per_byte": 7.997961296200716,
+      "longest_run_bits": 21,
+      "file": "evk_B_10.bin",
+      "relative_path": "data/qrng/evk_B_10.bin"
+    },
+    {
+      "byte_count": 1048576,
+      "sha256": "f80e1b6577c1c2439c6d71e66d6cd4c24ab7fd6701021358b7c822d031e8cf14",
+      "bit_one_ratio": 0.5001698732376099,
+      "byte_entropy_bits_per_byte": 7.999822023132,
+      "longest_run_bits": 23,
+      "file": "evk_C_1MB.bin",
+      "relative_path": "data/qrng/evk_C_1MB.bin"
+    }
+  ],
+  "groups": {
+    "A": {
+      "count": 1,
+      "total_bytes": 1048576,
+      "bit_one_ratio_mean": 0.49987316131591797,
+      "bit_one_ratio_std": 0.0,
+      "bit_one_ratio_min": 0.49987316131591797,
+      "bit_one_ratio_max": 0.49987316131591797,
+      "byte_entropy_mean": 7.999836840044125,
+      "byte_entropy_std": 0.0,
+      "longest_run_max": 24
+    },
+    "B_repeats": {
+      "count": 10,
+      "total_bytes": 1024000,
+      "bit_one_ratio_mean": 0.5002724609375,
+      "bit_one_ratio_std": 0.0005458970787351394,
+      "bit_one_ratio_min": 0.499404296875,
+      "bit_one_ratio_max": 0.50129150390625,
+      "byte_entropy_mean": 7.998124825357936,
+      "byte_entropy_std": 0.00015881793302548083,
+      "longest_run_max": 23
+    },
+    "C": {
+      "count": 1,
+      "total_bytes": 1048576,
+      "bit_one_ratio_mean": 0.5001698732376099,
+      "bit_one_ratio_std": 0.0,
+      "bit_one_ratio_min": 0.5001698732376099,
+      "bit_one_ratio_max": 0.5001698732376099,
+      "byte_entropy_mean": 7.999822023132,
+      "byte_entropy_std": 0.0,
+      "longest_run_max": 23
+    },
+    "all": {
+      "count": 12,
+      "total_bytes": 3121152,
+      "bit_one_ratio_mean": 0.5002306369940439,
+      "bit_one_ratio_std": 0.0005073107441252248,
+      "bit_one_ratio_min": 0.499404296875,
+      "bit_one_ratio_max": 0.50129150390625,
+      "byte_entropy_mean": 7.99840892639629,
+      "byte_entropy_std": 0.0006788976353919409,
+      "longest_run_max": 24
+    }
+  }
+}
