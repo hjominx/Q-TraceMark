@@ -12,6 +12,12 @@ class EVK QRNG files, preserve the seed quality report in the evidence package,
 and detect work/copy fingerprints after JPEG compression, crop, brightness
 change, and pasted-fragment attacks.
 
+> **Seed status.** The `evk_C_1MB.bin` used for this run was briefly published in
+> Git history before being purged, so it is considered compromised and is retained
+> only as a reproducibility record (hashes/statistics below). Final and
+> dispute-grade runs should use a freshly collected EVK capture that has never been
+> committed. See [`data/qrng/README.md`](../data/qrng/README.md).
+
 ## Primary EVK Seed Source
 
 | Field | Value |

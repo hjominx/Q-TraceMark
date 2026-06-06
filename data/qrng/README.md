@@ -5,6 +5,13 @@ for the Q-TraceMark real-QRNG experiment run. The raw `.bin` files are ignored b
 Git; the public repository keeps only this README plus derived hashes/statistics
 under `docs/assets/`.
 
+> **Security note.** Earlier revisions of this repository accidentally committed the
+> raw `.bin` files, and that history was published. Those binaries have since been
+> purged from Git history (`git filter-repo`), so the previously exposed seed source
+> must be treated as compromised and **discarded**. For final/report-grade runs,
+> collect a fresh EVK QRNG capture, keep it only in this local directory, and never
+> commit raw `.bin` files — publish only hashes, statistics, and figures.
+
 Expected local files:
 
 - `evk_A_1MB.bin`: 1 MiB EVK sample A
