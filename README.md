@@ -199,6 +199,31 @@ EVK-specific figures:
 
 ![EVK evidence package](docs/assets/evk_fig_evidence_package.png)
 
+## Real Photo Experiment
+
+사용자 제공 사진이나 실제 작품 이미지로 PoC를 돌리려면 `run_image_experiment.py`를 사용합니다.
+원본 이미지는 Git에 커밋하지 말고 로컬 경로에서 직접 읽어 `results/`에 산출물을 만듭니다.
+
+```bash
+python3 scripts/run_image_experiment.py \
+  --image /path/to/source_photo.jpg \
+  --qrng-file data/qrng/<fresh_capture>.bin \
+  --out results/photo_experiment \
+  --max-long-edge 1536
+```
+
+생성물:
+
+- `source_resized.png`, `watermarked.png`
+- JPEG/crop/brightness/pasted-fragment 공격 이미지
+- `contact_sheet.png`: 발표용 요약 이미지
+- `diff_figure.png`: 원본/워터마크/증폭 차이
+- `confidence_figure.png`: 공격별 work/copy confidence
+- `presentation_notes.md`: 슬라이드에 넣을 표와 문장
+
+이번 Warnemunde 항구 사진 테스트의 발표 초안은
+[`docs/PRESENTATION_DRAFT.md`](docs/PRESENTATION_DRAFT.md)에 정리되어 있습니다.
+
 ## 프로젝트 구조
 
 ```text
@@ -221,6 +246,7 @@ Q-TraceMark/
     run_demo.py
     measure_fpr.py
     run_validation_suite.py
+    run_image_experiment.py
     make_figures.py
     analyze_qrng_files.py
   tests/
