@@ -224,6 +224,17 @@ python3 scripts/run_image_experiment.py \
 이번 Warnemunde 항구 사진 테스트의 발표 초안은
 [`docs/PRESENTATION_DRAFT.md`](docs/PRESENTATION_DRAFT.md)에 정리되어 있습니다.
 
+논문/포스터 스타일의 보조 실험 그림(JPEG sweep, crop/fragment sweep, null distribution,
+PSNR/차이 분포)을 생성하려면:
+
+```bash
+python3 scripts/make_photo_research_figures.py \
+  --image /path/to/source_photo.jpg \
+  --qrng-file data/qrng/<fresh_capture>.bin \
+  --out results/photo_research_figures \
+  --max-long-edge 1536
+```
+
 ## 프로젝트 구조
 
 ```text
@@ -247,6 +258,7 @@ Q-TraceMark/
     measure_fpr.py
     run_validation_suite.py
     run_image_experiment.py
+    make_photo_research_figures.py
     make_figures.py
     analyze_qrng_files.py
   tests/
