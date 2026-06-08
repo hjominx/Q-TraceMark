@@ -52,11 +52,7 @@ python3 scripts/run_demo.py --qrng-file /path/to/evk_C_1MB.bin
 - `attack_jpeg.jpg`: JPEG 압축 공격 이미지
 - `attack_paste.png`: 일부 조각 합성 공격 이미지
 - `report.json`: 검출 결과와 증거 패키지
-- `contact_sheet.png`: 발표용 요약 이미지
-
-## 데모 프리뷰
-
-![Q-TraceMark demo contact sheet](docs/assets/demo_contact_sheet.png)
+- `contact_sheet.png`: 로컬 시각 요약 이미지
 
 예시 데모에서는 워터마크가 없는 원본은 검출되지 않고, 워터마크 삽입본·JPEG 압축본·
 50% 크롭본·밝기 변형본·부분 합성 ROI에서 work/copy 지문이 검출됩니다.
@@ -114,8 +110,8 @@ python3 scripts/measure_fpr.py --controls-dir data/controls --samples 100
 - 무워터마크 대조군 기반 경험적 FPR
 - threshold 0.95 / 0.99 / 0.999 sweep
 
-결과는 `results/validation/validation_report.json`에만 저장됩니다(기본값). 발표용
-예시 그림의 소스인 [`docs/assets/validation_report.json`](docs/assets/validation_report.json)을
+결과는 `results/validation/validation_report.json`에만 저장됩니다(기본값).
+공개 예시 리포트인 [`docs/assets/validation_report.json`](docs/assets/validation_report.json)을
 함께 갱신하려면 `--update-docs`를 명시합니다. 기본 실행은 작업 트리를 더럽히지 않습니다.
 
 ## Actual EVK QRNG run
@@ -153,51 +149,11 @@ EVK report assets:
 - [`docs/assets/evk_demo_report.json`](docs/assets/evk_demo_report.json)
 - [`docs/assets/evk_fpr_report.json`](docs/assets/evk_fpr_report.json)
 - [`docs/assets/evk_validation_report.json`](docs/assets/evk_validation_report.json)
-- [`docs/assets/evk_fig_attack_confidence.png`](docs/assets/evk_fig_attack_confidence.png)
-- [`docs/assets/evk_fig_fpr_thresholds.png`](docs/assets/evk_fig_fpr_thresholds.png)
-- [`docs/assets/evk_fig_evidence_package.png`](docs/assets/evk_fig_evidence_package.png)
 
 In the committed EVK FPR sweep, threshold `0.95` produced `4/100` synthetic-control
 false positives, threshold `0.99` produced `1/100`, and threshold `0.999` produced
 `0/100`. For report-grade or dispute-grade claims, use `0.999` unless a larger
 empirical null set justifies a lower threshold.
-
-## Presentation figures
-
-발표자료·보고서에 바로 넣을 수 있는 그림은 리포트 JSON에서 직접 생성합니다.
-
-```bash
-python3 scripts/make_figures.py
-```
-
-생성되는 그림(모두 `docs/assets/`):
-
-- `fig_qtracemark_pipeline.png`: 전체 파이프라인
-- `fig_watermark_diff.png`: source / watermarked / 증폭 difference heatmap
-- `fig_attack_confidence.png`: 공격별 work/copy 검출 confidence
-- `fig_fpr_thresholds.png`: threshold sweep별 오탐률
-- `fig_evidence_package.png`: QRNG raw → seed hash → 발급 로그 → 검출 리포트 구조
-- `evk_fig_attack_confidence.png`: EVK C seed 기반 공격별 confidence
-- `evk_fig_fpr_thresholds.png`: EVK C seed 기반 threshold sweep
-- `evk_fig_evidence_package.png`: EVK C seed 기반 evidence package
-
-![Q-TraceMark pipeline](docs/assets/fig_qtracemark_pipeline.png)
-
-![Detection confidence per attack](docs/assets/fig_attack_confidence.png)
-
-![Watermark difference](docs/assets/fig_watermark_diff.png)
-
-![False positive rate by threshold](docs/assets/fig_fpr_thresholds.png)
-
-![Evidence package](docs/assets/fig_evidence_package.png)
-
-EVK-specific figures:
-
-![EVK detection confidence per attack](docs/assets/evk_fig_attack_confidence.png)
-
-![EVK false positive rate by threshold](docs/assets/evk_fig_fpr_thresholds.png)
-
-![EVK evidence package](docs/assets/evk_fig_evidence_package.png)
 
 ## Real Photo Experiment
 
@@ -216,13 +172,9 @@ python3 scripts/run_image_experiment.py \
 
 - `source_resized.png`, `watermarked.png`
 - JPEG/crop/brightness/pasted-fragment 공격 이미지
-- `contact_sheet.png`: 발표용 요약 이미지
+- `contact_sheet.png`: 로컬 시각 요약 이미지
 - `diff_figure.png`: 원본/워터마크/증폭 차이
 - `confidence_figure.png`: 공격별 work/copy confidence
-- `presentation_notes.md`: 슬라이드에 넣을 표와 문장
-
-이번 Warnemunde 항구 사진 테스트의 발표 초안은
-[`docs/PRESENTATION_DRAFT.md`](docs/PRESENTATION_DRAFT.md)에 정리되어 있습니다.
 
 논문/포스터 스타일의 보조 실험 그림(JPEG sweep, crop/fragment sweep, null distribution,
 PSNR/차이 분포)을 생성하려면:
@@ -267,7 +219,7 @@ Q-TraceMark/
 
 ## 현재 PoC의 범위
 
-이 PoC는 연구/발표용 최소 구현입니다.
+이 PoC는 연구용 최소 구현입니다.
 
 - DCT 기반 spread-spectrum 삽입/검출
 - 작품 지문과 사본 지문 2계층 삽입

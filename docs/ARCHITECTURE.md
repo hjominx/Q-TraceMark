@@ -14,8 +14,6 @@ flowchart LR
   H --> I["Evidence package"]
 ```
 
-![Q-TraceMark pipeline](assets/fig_qtracemark_pipeline.png)
-
 ## 발급 계층
 
 Q-TraceMark는 하나의 seed만 쓰지 않습니다. 목적별로 계층을 나눕니다.
@@ -82,8 +80,6 @@ copy_id      = 얇은 실: 사용자/세션별 사본 경로
 ## 증거 패키지 구조
 
 발급부터 검출까지의 hash 체인을 하나의 감사 가능한 패키지로 묶습니다.
-
-![Evidence package](assets/fig_evidence_package.png)
 
 ## 유통 경로 추적
 

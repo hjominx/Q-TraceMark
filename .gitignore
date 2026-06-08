@@ -9,3 +9,10 @@ results/*
 !results/.gitkeep
 data/qrng/*.bin
 *.log
+outputs/
+docs/PRESENTATION_*.md
+docs/ARCHIVED_REVIEW_*.md
+docs/*발표*.docx
+docs/assets/*.png
+docs/assets/*.jpg
+docs/assets/*.jpeg

@@ -38,12 +38,9 @@ Full QRNG quality report:
 The EVK demo report is stored at:
 
 - [`docs/assets/evk_demo_report.json`](assets/evk_demo_report.json)
-- [`docs/assets/evk_demo_contact_sheet.png`](assets/evk_demo_contact_sheet.png)
 
 All attacked watermarked images passed detection, while the unwatermarked source
 image remained below threshold.
-
-![EVK detection confidence per attack](assets/evk_fig_attack_confidence.png)
 
 ## False Positive Rate Sweep
 
@@ -63,12 +60,6 @@ shows why threshold sweeping is necessary for evidence-style claims.
 
 For report-grade or dispute-grade claims, Q-TraceMark should use `0.999` as the
 decision threshold unless a larger empirical null set justifies a lower value.
-
-![EVK false positive rate by threshold](assets/evk_fig_fpr_thresholds.png)
-
-## Evidence Package Figure
-
-![EVK evidence package](assets/evk_fig_evidence_package.png)
 
 ## Exact Commands
 
