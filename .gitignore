@@ -16,3 +16,7 @@ docs/*발표*.docx
 docs/assets/*.png
 docs/assets/*.jpg
 docs/assets/*.jpeg
+# Curated figures embedded in README are tracked so they render on GitHub
+!docs/assets/fig_*.png
+!docs/assets/evk_fig_*.png
+!docs/assets/demo_contact_sheet.png
